@@ -61,6 +61,7 @@ RUN apt-get update && apt-get install -y \
     valgrind \
     clang-7 \
     lldb-7 \
+    libudunits2-dev \
     python \
     python-sympy \
     python-pip \
