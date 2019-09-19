@@ -21,7 +21,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y software-properties-common
 
 # Add R apt repository
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran35/"
 
 # Install basic stuff, R, and other packages that are useful for compiling R
@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y \
     sudo \
     locales \
     git \
-    vim-tiny \
+    vim \
     less \
     wget \
     r-base \
@@ -80,7 +80,8 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 \
     --slave /usr/bin/g++ g++ /usr/bin/g++-8
 
 RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-7 800 \
-    --slave /usr/bin/clang++ clang++ /usr/bin/clang++-7
+    --slave /usr/bin/clang++ clang++ /usr/bin/clang++-7 \
+    --slave /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-7
 
 
 RUN echo 'options(\n\
