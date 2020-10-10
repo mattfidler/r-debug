@@ -62,15 +62,8 @@ RUN apt-get update && apt-get install -y \
     clang-10 \
     lldb-10 \
     libudunits2-dev \
-    python \
-    python-sympy \
-    python-pip \
-    python-setuptools \
-    python3-pip \
-    python-dev \
-    python3-dev \
     xclip \
-    zlib1g-dev
+    zlib1g-dev \
     devscripts
 
 RUN locale-gen en_US.utf8 \
