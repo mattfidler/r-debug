@@ -6,7 +6,7 @@
 
 # Use a very recent version of Ubuntu to get the latest GCC, which we need for
 # some of options used for ASAN builds.
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 MAINTAINER Winston Chang "winston@rstudio.com"
 
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y software-properties-common
 
 # Add R apt repository
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran35/"
+RUN add-apt-repository "deb http://cran.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 # Install basic stuff, R, and other packages that are useful for compiling R
 # and R packages.
@@ -55,12 +55,12 @@ RUN apt-get update && apt-get install -y \
     tk8.6-dev \
     xfonts-base \
     xvfb \
-    gcc-8 \
-    g++-8 \
+    gcc-10 \
+    g++-10 \
     gdb \
     valgrind \
-    clang-7 \
-    lldb-7 \
+    clang-10 \
+    lldb-10 \
     libudunits2-dev \
     python \
     python-sympy \
@@ -71,17 +71,18 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     xclip \
     zlib1g-dev
+    devscripts
 
 RUN locale-gen en_US.utf8 \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 \
-    --slave /usr/bin/g++ g++ /usr/bin/g++-8
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 800 \
+    --slave /usr/bin/g++ g++ /usr/bin/g++-10
 
-RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-7 800 \
-    --slave /usr/bin/clang++ clang++ /usr/bin/clang++-7 \
-    --slave /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-7
+RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 800 \
+    --slave /usr/bin/clang++ clang++ /usr/bin/clang++-10 \
+    --slave /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-10
 
 
 RUN echo 'options(\n\
@@ -96,17 +97,26 @@ RUN echo 'options(\n\
 # From FAQ 5 and 6 here: https://yihui.name/tinytex/faq/
 # Also install ae, parskip, and listings packages to build R vignettes
 RUN wget -qO- \
-    "https://github.com/yihui/tinytex/raw/master/tools/install-unx.sh" | \
+    "https://yihui.org/gh/tinytex/tools/install-unx.sh" | \
     sh -s - --admin --no-path \
     && ~/.TinyTeX/bin/*/tlmgr path add \
     && tlmgr install metafont mfware inconsolata tex ae parskip listings xcolor \
+             epstopdf-pkg pdftexcmds kvoptions texlive-scripts grfext \
     && tlmgr path add \
-    && Rscript -e "source('https://install-github.me/yihui/tinytex'); tinytex::r_texmf()"
+    && Rscript -e "install.packages('tinytex'); tinytex::r_texmf()"
 
 
 # =====================================================================
 # Install various versions of R-devel
 # =====================================================================
+
+# Environment variables from http://www.stats.ox.ac.uk/pub/bdr/memtests/README.txt
+ENV ASAN_OPTIONS 'detect_leaks=0:detect_odr_violation=0'
+ENV UBSAN_OPTIONS 'print_stacktrace=1'
+ENV RJAVA_JVM_STACK_WORKAROUND 0
+ENV RGL_USE_NULL true
+ENV R_DONT_USE_TK true
+
 
 # Clone R-devel and download recommended packages
 RUN cd /tmp \
