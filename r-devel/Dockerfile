@@ -64,6 +64,10 @@ RUN apt-get update && apt-get install -y \
     libudunits2-dev \
     xclip \
     zlib1g-dev \
+    cmake \
+    libgmp-dev \
+    libmpfr-dev \
+    libmpc-dev \
     devscripts
 
 RUN locale-gen en_US.utf8 \
