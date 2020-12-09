@@ -188,32 +188,23 @@ R-Exts has more information [here](https://cran.r-project.org/doc/manuals/r-rele
 
 #### R with strict barrier
 
-R can be configured and compiled with
-[`--enable-strict-barrier`](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-gctorture),
-which changes the behavior of the memory allocator to help catch more
-memory problems. This runs more slowly than a regular build of R.
+R can be configured and compiled with [`--enable-strict-barrier`](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-gctorture), which changes the behavior of the memory allocator to help catch more memory problems. This runs more slowly than a regular build of R.
 
-The Docker image includes a build of R with strict barrier. To use it,
-run:
+The Docker image includes a build of R with strict barrier. To use it, run:
 
 ```
 RDstrictbarrier
 ```
 
-When you're in R, enable `gctorture()` as above, and it will be even
-more thorough about finding memory bugs.
+When you're in R, enable `gctorture()` as above, and it will be even more thorough about finding memory bugs.
 
-With the strict-barrier build of R, there is another garbage collector
-setting that can help find problems. Instead of running
-`gctorture(TRUE)`, run:
+With the strict-barrier build of R, there is another garbage collector setting that can help find problems. Instead of running `gctorture(TRUE)`, run:
 
 ```
 gctorture2(1, inhibit_release = TRUE)
 ```
 
-Normally, R won't detect when incorrectly GC'd memory is reallocated,
-but with `inhibit_release=TRUE`, it will never reallocate memory,
-making some kinds of errors easier to detect.
+Normally, R won't detect when incorrectly GC'd memory is reallocated, but with `inhibit_release=TRUE`, it will never reallocate memory, making some kinds of errors easier to detect.
 
 
 
@@ -223,10 +214,7 @@ making some kinds of errors easier to detect.
 
 ### Memory leaks
 
-Memory leaks don't have any obvious symptoms. All that happens is that
-the process keeps increasing its memory usage over time. This could be
-benign if you just leak a little memory, but can be a problem if your
-code continually leaks memory and runs for a long time.
+Memory leaks don't have any obvious symptoms. All that happens is that the process keeps increasing its memory usage over time. This could be benign if you just leak a little memory, but can be a problem if your code continually leaks memory and runs for a long time.
 
 Here's a minimal example of memory leak:
 
@@ -268,10 +256,7 @@ Save workspace image? [y/n/c]: n
 ==123== ERROR SUMMARY: 1136 errors from 4 contexts (suppressed: 0 from 0)
 ```
 
-The key piece of information is the "definitely lost" line. It tells
-us that we've leaked 4,000 bytes. For more information, we can run it
-with `--leak-check=full`, which will display detailed information
-about each leak:
+The key piece of information is the "definitely lost" line. It tells us that we've leaked 4,000 bytes. For more information, we can run it with `--leak-check=full`, which will display detailed information about each leak:
 
 ```
 $ RD -d "valgrind --leak-check=full"
@@ -312,15 +297,9 @@ Save workspace image? [y/n/c]: n
 ==155== ERROR SUMMARY: 1137 errors from 5 contexts (suppressed: 0 from 0)
 ```
 
-Not all leaks are as straightforward as this one, and in some cases
-Valgrind won't be sure that the memory is actually leaked. In those
-cases it will say "possibly lost". For more information about the
-messages from Valgrind, see the
-[FAQ](http://valgrind.org/docs/manual/faq.html#faq.deflost).
+Not all leaks are as straightforward as this one, and in some cases Valgrind won't be sure that the memory is actually leaked. In those cases it will say "possibly lost". For more information about the messages from Valgrind, see the [FAQ](http://valgrind.org/docs/manual/faq.html#faq.deflost).
 
-You can also build R with `--with-valgrind-instrumentation=2` to
-detect more kinds of memory bugs, at the cost of speed. With the
-wch1/r-debug Docker image, you can simply run it with `RDvalgrind`:
+You can also build R with `--with-valgrind-instrumentation=2` to detect more kinds of memory bugs, at the cost of speed. With the wch1/r-debug Docker image, you can simply run it with `RDvalgrind`:
 
 ```
 RDvalgrind -d valgrind
@@ -332,10 +311,7 @@ TODO: What about R-level memory leaks?
 
 ### Double-freeing memory
 
-If you free the same region of memory twice, it may result in R
-crashing immediately, or R might do nothing right away. This can
-depend on the platform: on my Mac, it crashes the first time I try to
-do this, but on my Linux machine, I need to run it a few times.
+If you free the same region of memory twice, it may result in R crashing immediately, or R might do nothing right away. This can depend on the platform: on my Mac, it crashes the first time I try to do this, but on my Linux machine, I need to run it a few times. 
 
 ```
 Rcpp::cppFunction("
