@@ -68,7 +68,8 @@ RUN apt-get update && apt-get install -y \
     libgmp-dev \
     libmpfr-dev \
     libmpc-dev \
-    devscripts
+    devscripts \
+    libgit2-dev
 
 RUN locale-gen en_US.utf8 \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
