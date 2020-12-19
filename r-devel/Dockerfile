@@ -144,7 +144,7 @@ RUN /tmp/buildR.sh
 # Install some commonly-used packages to a location used by all the RD*
 # installations. These packages do not have compiled code and do not depend on
 # packages that have compiled code.
-RUN RD -q -e 'install.packages(c("BH", "R6", "magrittr", "memoise", "tidyr","shiny","shinydashboard", "shinyBS","shinyAce","gridExtra","collapsibleTree","DT","R3port","RCurl","vpc","n1qn1","reticulate", "lotri"), "/usr/local/RD/lib/R/library")'
+RUN RD -q -e 'install.packages(c("BH", "R6", "magrittr", "memoise", "tidyr","shiny","shinydashboard", "shinyBS","shinyAce","gridExtra","collapsibleTree","DT","R3port","RCurl","vpc","n1qn1", "lotri", "RcppEigen", "sitmo", "StanHeaders"), "/usr/local/RD/lib/R/library")'
 
 # Finally, install some common packages specific to this build of R.
 RUN RD -q -e 'install.packages(c("devtools", "Rcpp", "roxygen2", "testthat"))'
