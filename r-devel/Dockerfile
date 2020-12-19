@@ -147,4 +147,4 @@ RUN /tmp/buildR.sh
 RUN RD -q -e 'install.packages(c("BH", "R6", "magrittr", "memoise"), "/usr/local/RD/lib/R/library")'
 
 # Finally, install some common packages specific to this build of R.
-RUN RD -q -e 'install.packages(c("devtools", "Rcpp", "roxygen2", "testthat","RcppEigen", "sitmo", "StanHeaders"))'
+RUN RD -q -e 'install.packages(c("devtools", "Rcpp", "roxygen2", "testthat", "RcppArmadillo", "RcppEigen", "sitmo", "StanHeaders"))'
