@@ -69,6 +69,7 @@ RUN apt-get update && apt-get install -y \
     libmpfr-dev \
     libmpc-dev \
     devscripts \
+    libc++-dev \
     libgit2-dev
 
 RUN locale-gen en_US.utf8 \

@@ -27,17 +27,22 @@ elif [[ "$1" = "san" ]]; then
     # http://www.stats.ox.ac.uk/pub/bdr/memtests/README.txt
     # https://github.com/rocker-org/r-devel-san/blob/master/Dockerfile
     # But without -mtune=native because the Docker image needs to be portable.
-    export CXX="g++ -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer"
-    export CFLAGS="${CFLAGS} -pedantic -fsanitize=address"
+    
+    #  MLF: Added -stdlib=libc++ as in the new README.txt; Also used
+    #  -mtune=native since I'm only running on my machine.
+    
+    export CXX="g++ -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -stdlib=libc++"
+    export CFLAGS="-g -O2 -Wall -pedantic -mtune=native -fsanitize=address"
     export DEFS=-DSWITCH_TO_REFCNT
-    export FFLAGS="-g -O0"
-    export FCFLAGS="-g -O0"
-    export CXXFLAGS="${CXXFLAGS} -Wall -pedantic"
+    export FFLAGS="-g -O2 -mtune=native"
+    export FCFLAGS="-g -O2 -mtune=native"
+    export CXXFLAGS="-g -O2 -Wall -pedantic -mtune=native"
     export MAIN_LDFLAGS="-fsanitize=address,undefined -pthread"
 
     # Did not copy over ~/.R/Makevars from BDR's page because other R
     # installations would also read that file, and packages built for those
     # other R installations would inherit settings meant for this build.
+    # MLF: But put it in the build for the dependent packages
 
 elif [[ "$1" = "csan" ]]; then
     suffix="csan"
