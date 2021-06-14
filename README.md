@@ -1,4 +1,4 @@
-[![](https://images.microbadger.com/badges/image/wch1/r-debug.svg)](https://microbadger.com/images/wch1/r-debug)
+[#![](https://images.microbadger.com/badges/image/wch1/r-debug.svg)](https://microbadger.com/images/wch1/r-debug)
 
 As of 2019-08-08, the following Docker images are built daily and pushed to Docker Hub.
 
