@@ -36,6 +36,8 @@ RUN apt-get update && apt-get install -y \
     r-base \
     r-base-dev \
     r-recommended \
+    automake \
+    libtool \
     fonts-texgyre \
     gdebi-core \
     pandoc \
@@ -45,6 +47,7 @@ RUN apt-get update && apt-get install -y \
     libpango1.0-dev \
     libxt-dev \
     libssl-dev \
+    libgit2-dev \
     libxml2-dev \
     texinfo \
     rsync \
@@ -59,8 +62,8 @@ RUN apt-get update && apt-get install -y \
     g++-10 \
     gdb \
     valgrind \
-    clang-10 \
-    lldb-10 \
+    clang-11 \
+    lldb-11 \
     libudunits2-dev \
     xclip \
     zlib1g-dev \
@@ -79,9 +82,9 @@ ENV LANG=en_US.UTF-8
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 800 \
     --slave /usr/bin/g++ g++ /usr/bin/g++-10
 
-RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 800 \
-    --slave /usr/bin/clang++ clang++ /usr/bin/clang++-10 \
-    --slave /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-10
+RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 800 \
+    --slave /usr/bin/clang++ clang++ /usr/bin/clang++-11 \
+    --slave /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-11
 
 
 RUN echo 'options(\n\
@@ -145,7 +148,12 @@ RUN /tmp/buildR.sh
 # Install some commonly-used packages to a location used by all the RD*
 # installations. These packages do not have compiled code and do not depend on
 # packages that have compiled code.
-RUN RD -q -e 'install.packages(c("BH", "R6", "magrittr", "memoise"), "/usr/local/RD/lib/R/library")'
+RUN RD -q -e 'install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/", "/usr/local/RD/lib/R/library")'
+RUN RD -q -e 'pak::pkg_install(c("BH", "R6", "magrittr"), "/usr/local/RD/lib/R/library")'
 
 # Finally, install some common packages specific to this build of R.
+<<<<<<< HEAD
 RUN RD -q -e 'install.packages(c("devtools", "Rcpp", "roxygen2", "testthat", "RcppArmadillo", "RcppEigen", "sitmo", "StanHeaders"))'
+=======
+RUN RD -q -e 'pak::pkg_install(c("devtools", "Rcpp", "roxygen2", "testthat", "memoise", "rmarkdown"))'
+>>>>>>> d0effee44a3a452c7133e00675ff57fdcd3bf9fa
