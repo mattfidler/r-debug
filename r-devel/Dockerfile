@@ -152,8 +152,4 @@ RUN RD -q -e 'install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev
 RUN RD -q -e 'pak::pkg_install(c("BH", "R6", "magrittr"), "/usr/local/RD/lib/R/library")'
 
 # Finally, install some common packages specific to this build of R.
-<<<<<<< HEAD
-RUN RD -q -e 'install.packages(c("devtools", "Rcpp", "roxygen2", "testthat", "RcppArmadillo", "RcppEigen", "sitmo", "StanHeaders"))'
-=======
-RUN RD -q -e 'pak::pkg_install(c("devtools", "Rcpp", "roxygen2", "testthat", "memoise", "rmarkdown"))'
->>>>>>> d0effee44a3a452c7133e00675ff57fdcd3bf9fa
+RUN RD -q -e 'install.packages(c("devtools", "Rcpp", "roxygen2", "testthat", "RcppArmadillo", "RcppEigen", "sitmo", "StanHeaders", "memoise"))'
