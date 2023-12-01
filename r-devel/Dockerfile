@@ -77,7 +77,7 @@ RUN apt-get update && apt-get install -y \
     libmpc-dev \
     devscripts \
     libc++-dev \
-    libgit2-dev \
+    libgit2-dev
 
 RUN locale-gen en_US.utf8 \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
