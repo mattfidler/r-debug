@@ -11,6 +11,5 @@ RUN /tmp/buildR.sh csan
 RUN sed -i 's/^#!\/bin\/bash/#!\/bin\/bash\nulimit -Ss 131072/' /usr/local/bin/RDcsan
 # Increase stack size in .bashrc, so that it is picked up by RDscriptcsan.
 RUN echo "\nulimit -Ss 131072" >> $HOME/.bashrc
-
-
-RUN RDcsan -q -e 'install.packages(c("devtools", "Rcpp", "roxygen2", "testthat", "Matrix", "DT","covr","crayon","curl","data.table", "digest", "dplyr","ggrepel","gridExtra","htmltools","knitr","learnr","microbenchmark","nlme","remotes","rlang","rmarkdown","scales","shiny","stringi","testthat","tidyr","usethis","vdiffr","xgxr","pillar","tibble", "PreciseSums", "Rcpp", "RcppArmadillo", "assertthat", "backports", "checkmate", "cli", "dparser", "ggplot2", "inline", "lotri", "magrittr", "memoise", "methods", "rex", "symengine", "sys", "units", "tools", "utils","BH","checkmate","RcppEigen", "sitmo", "StanHeaders", "qs"))'
+RUN RDcsan -q -e 'install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev")'
+RUN RDcsan -q -e 'pak::pkg_install(c("devtools", "Rcpp", "cpp11", "decor", "roxygen2", "testthat", "memoise", "rmarkdown", "Matrix", "DT","covr","crayon","curl","data.table", "digest", "dplyr","ggrepel","gridExtra","htmltools","knitr","learnr","microbenchmark","nlme","remotes","rlang","rmarkdown","scales","shiny","stringi","testthat","tidyr","usethis","vdiffr","xgxr","pillar","tibble", "PreciseSums", "Rcpp", "RcppArmadillo", "assertthat", "backports", "checkmate", "cli", "dparser", "ggplot2", "inline", "lotri", "magrittr", "memoise", "methods", "rex", "symengine", "sys", "units", "tools", "utils","BH","checkmate","RcppEigen", "sitmo", "StanHeaders", "qs"))'
